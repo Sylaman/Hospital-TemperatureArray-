@@ -1,22 +1,32 @@
 public class Hospital {
 
     public static float[] generatePatientsTemperatures(int patientsCount) {
-        return new float[0];
+        float[] temperatureData = new float[patientsCount];
+        for (int i = 0; i < temperatureData.length; i++) {
+            temperatureData[i] = (float) (32.0F + (Math.random() * (40.0F - 32.0F)));
+        }
+
+        return temperatureData;
     }
 
     public static String getReport(float[] temperatureData) {
-        /*
-        TODO: Напишите код, который выводит среднюю температуру по больнице,количество здоровых пациентов,
-            а также температуры всех пациентов.
-            Округлите среднюю температуру с помощью Math.round до 2 знаков после запятой,
-            а температуры каждого пациента до 1 знака после запятой
-        */
 
-        String report =
-                "Температуры пациентов: " + 1 +
-                        "\nСредняя температура: " + 0 +
-                        "\nКоличество здоровых: " + 0;
+        int healthyPatients = 0;
+        float temperatureSum = 0.0F;
+        String patientsTemperatures = "";
 
-        return report;
+        for (float temperatureDatum : temperatureData) {
+            temperatureSum += temperatureDatum;
+            float thisTemperature = (Math.round(temperatureDatum * 10.0F) / 10.0F);
+            patientsTemperatures = patientsTemperatures.concat(String.valueOf(thisTemperature)).concat(" ");
+            if (temperatureDatum >= 36.2F && temperatureDatum <= 36.9F) {
+                healthyPatients++;
+            }
+        }
+        float averageTemperature = temperatureSum / temperatureData.length;
+
+        return "Температуры пациентов: " + patientsTemperatures + "\n"
+                + "Средняя температура: " + (Math.round(averageTemperature * 100.0F) / 100.0F) + "\n"
+                + "Количество здоровых: " + healthyPatients;
     }
 }
